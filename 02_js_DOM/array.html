@@ -22,11 +22,7 @@
         "hit me baby one more time",
       ];
 
-      hej.forEach(doThis);
-
-      function doThis(etNavn) {
-        display.innerHTML += "<li>" + etNavn + "</li>";
-      }
+      hej.forEach((doThis) => (display.innerHTML += "<li>" + doThis + "</li>"));
     </script>
   </body>
 </html>
