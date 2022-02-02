@@ -1,0 +1,7 @@
+section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+h1 {
+  text-align: center;
+}

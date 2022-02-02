@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .markering {
+        background-color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Titel</h1>
+      <h2>Undertitel</h2>
+    </header>
+    <main>
+      <section>
+        <article>
+          <img src="1.jpg" alt="" />
+          <h3>Article1</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
+            est soluta ducimus! Eaque voluptatum illum nihil ex similique et
+            cumque. Perferendis voluptates error ducimus praesentium. Quos in
+            harum eius beatae?
+          </p>
+        </article>
+        <article>
+          <img src="2.jpg" alt="" />
+          <h3>Article2</h3>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique
+            assumenda dolore architecto, voluptate quia a fugit quis non fugiat
+            numquam nobis blanditiis voluptates, vel aliquam, saepe aperiam
+            optio consequuntur rem.
+          </p>
+        </article>
+      </section>
+    </main>
+    <footer></footer>
+    <script>
+      const header = document.querySelector("header");
+      const h1 = document.querySelector("h1");
+      const h2 = document.querySelector("h2");
+
+      console.log(header);
+      console.log(h1);
+
+      h1.textContent = "god titel";
+      h2.innerHTML = "<h2>slap lige af</h2>";
+      const billede1 = document.querySelector("article:nth-child(1) img");
+      console.log(billede1);
+      billede1.src = "3.jpg";
+
+      let paragraf = document.createElement("p");
+      let paragrafTekst = document.createTextNode(
+        "Hej dette er en dejlig ny tekstparagraf"
+      );
+      let mainSection = document.querySelector("section");
+      let newArticle = document.createElement("article");
+      let nyOverskrift = document.createElement("h3");
+      let overskriftTekst = document.createTextNode("Dejlig ny article");
+      let pic = document.createElement("img");
+      pic.src = "https://placeimg.com/640/480/any";
+      newArticle.appendChild(pic);
+
+      paragraf.appendChild(paragrafTekst);
+      nyOverskrift.appendChild(overskriftTekst);
+      newArticle.appendChild(nyOverskrift);
+      newArticle.appendChild(paragraf);
+
+      mainSection.appendChild(newArticle);
+
+      const artikler = document.querySelectorAll("article");
+
+      artikler.forEach(setEvent);
+
+      function setEvent(dims) {
+        dims.addEventListener("click", marker);
+      }
+
+      function marker() {
+        console.log(this);
+        this.classList.toggle("markering");
+      }
+    </script>
+  </body>
+</html>
