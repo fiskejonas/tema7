@@ -6,5 +6,8 @@ h1 {
   text-align: center;
 }
 .markering {
-  background-color: orange;
+  box-shadow: 33px 29px 48px -8px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 33px 29px 48px -8px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 33px 29px 48px -8px rgba(0, 0, 0, 0.75);
+  transition: box-shadow 0.1s ease-in-out;
 }
