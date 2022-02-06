@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <template>
+      <article class="dyrliste">
+        <h3></h3>
+        <p class="type"></p>
+        <p class="levested"></p>
+        <img src="" alt="" class="billede" />
+        <p>Emner:</p>
+        <ul class="emneliste"></ul>
+      </article>
+    </template>
+    <section id="liste"></section>
+    <script>
+      let section = document.querySelector("section");
+      let dyrTemplate = document.querySelector("template");
+
+      const fil = "alleDyr.json";
+
+      async function hentData(fil) {
+        const resultat = await fetch(fil);
+        const json = await resultat.json();
+        vis(json);
+      }
+
+      function vis(array) {
+        array.forEach((dyr) => {
+          let klon = dyrTemplate.cloneNode(true).content;
+          klon.querySelector("h3").textContent = dyr.navn;
+          klon.querySelector(".type").textContent = dyr.type;
+          klon.querySelector(".levested").textContent = dyr.levested;
+          klon.querySelector("img").src = dyr.billede;
+
+          dyr.emner.forEach((emne) => {
+            klon.querySelector(".emneliste").innerHTML +=
+              "<li>" + emne + "</li>";
+          });
+
+          section.appendChild(klon);
+        });
+      }
+
+      hentData(fil);
+    </script>
+  </body>
+</html>
