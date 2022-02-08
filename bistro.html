@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Persongalleri</title>
+    <style>
+      img {
+        width: 400px;
+        height: auto;
+      }
+      section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+      }
+      .valgt {
+        background-color: seagreen;
+        color: white;
+      }
+
+      /*popup*/
+      #popup {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.767);
+        overflow: scroll;
+        display: flex;
+        align-items: center;
+        display: none;
+        
+      }
+      #popup article {
+        width: 80vw;
+        display: flex;
+        margin: 4rem auto;
+        border-radius: 25px;
+        padding: 12px;
+        background-color: white;
+        flex-direction: column;
+        align-items: center;
+      }
+      #luk {
+        position: fixed;
+        padding: 1em;
+        font-size: 1.7em;
+        font-weight: bolder;
+        color: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="popup">
+      <div id="luk">&#x2715</div>
+      <article>
+        <img src="" alt="" />
+        <h2></h2>
+        <p class="lang_beskrivelse"></p>
+        <p class="pris"></p>
+      </article>
+    </section>
+
+    <h1>ALLE</h1>
+    <nav>
+      <button data-kategori="alle">ALLE</button>
+      <button data-kategori="forretter" class="valgt">FORRETTER</button>
+      <button data-kategori="hovedretter">HOVEDRETTER</button>
+      <button data-kategori="desserter">DESSERTER</button>
+      <button data-kategori="drikkevarer">DRIKKEVARER</button>
+      <button data-kategori="sideorders">SIDEORDERS</button>
+    </nav>
+
+    <template>
+      <article class="template_article">
+        <h3 class="template_navn"></h3>
+        <img src="" alt="" class="template_img" />
+        <p class="template_beskrivelse"></p>
+        <p class="template_pris"></p>
+      </article>
+    </template>
+    <section id="galleri"></section>
+    <a href="mailto:"></a>
+    <script>
+      const url = "https://babushka-dd8a.restdb.io/rest/menu";
+      const options = {
+        headers: {
+          "x-apikey": "600ec2fb1346a1524ff12de4",
+        },
+      };
+
+      let filter = "alle";
+      let personer;
+      const header = document.querySelector("h1");
+      const filterKnapper = document.querySelectorAll("nav button");
+      filterKnapper.forEach((knap) =>
+        knap.addEventListener("click", filtrerPersoner)
+      );
+
+      function filtrerPersoner() {
+        filter = this.dataset.kategori;
+
+        visPersoner();
+
+        header.textContent = this.textContent;
+        document.querySelector(".valgt").classList.remove("valgt");
+        this.classList.add("valgt");
+      }
+
+      async function hentData() {
+        const JSONDATA = await fetch(url, options);
+        personer = await JSONDATA.json();
+
+        visPersoner();
+      }
+
+      function visPersoner() {
+        console.log(personer);
+        const section = document.querySelector("#galleri");
+        const template = document.querySelector("template").content;
+        section.textContent = "";
+        personer.forEach((person) => {
+          if (filter == person.kategori || filter == "alle") {
+            const klon = template.cloneNode(true);
+            klon.querySelector(".template_navn").textContent =
+              person.navn;
+            klon.querySelector(".template_img").src = "bistro_billeder/" +
+             person.billednavn + "-md.jpg";
+            klon.querySelector(".template_beskrivelse").textContent = person.kortbeskrivelse;
+            klon
+              .querySelector("article")
+              .addEventListener("click", () => visDetaljer(person));
+            section.appendChild(klon);
+          }
+        });
+      }
+
+      hentData();
+
+      function visDetaljer(person) {
+        popup.style.display = "block";
+        popup.querySelector("img").src = "bistro_billeder/" +
+             person.billednavn + "-md.jpg";
+        popup.querySelector("h2").textContent =
+          person.navn;
+        popup.querySelector(".lang_beskrivelse").textContent = person.langbeskrivelse;
+        popup.querySelector(".pris").textContent = "Pris:" + " " + person.pris + " " + "kr.";
+        document.querySelector("#luk").addEventListener("click", () => popup.style.display = "none");
+      }
+    </script>
+  </body>
+</html>

@@ -34,9 +34,12 @@
         },
       };
 
+      let filter = "ja";
+
       async function hentData() {
         const respons = await fetch(url, options);
         const json = await respons.json();
+
         vis(json);
       }
 
@@ -45,13 +48,15 @@
 
       function vis(json) {
         json.forEach((person) => {
-          const klon = template.cloneNode(true);
-          klon.querySelector(".template_navn").textContent =
-            person.fornavn + " " + person.efternavn;
-          klon.querySelector(".template_img").src =
-            "faces/" + person.profilbillede;
-          klon.querySelector(".template_email").textContent = person.email;
-          section.appendChild(klon);
+          if (filter == person.troende) {
+            const klon = template.cloneNode(true);
+            klon.querySelector(".template_navn").textContent =
+              person.fornavn + " " + person.efternavn;
+            klon.querySelector(".template_img").src =
+              "/faces/" + person.profilbillede;
+            klon.querySelector(".template_email").textContent = person.email;
+            section.appendChild(klon);
+          }
         });
       }
 
