@@ -4,28 +4,126 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Persongalleri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Rowdies:wght@700&family=Source+Serif+4:wght@300&display=swap" rel="stylesheet"> 
+    <title>Bistro</title>
     <style>
+
+
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      h1 {
+        font-family: 'Rowdies', cursive;
+        font-size: 3rem;
+        color: orange;
+      }
+
+      h2 {
+          font-size: 4rem;
+          margin-top: 1vw;
+          font-family: 'Rowdies', cursive;
+          color: rgb(255, 145, 0);
+        }
+
+      h3 {
+        font-family: 'Montserrat', sans-serif;
+      }
+
+      h4 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.3rem;
+      }
+
+      p {
+        font-family: 'Source Serif 4', sans-serif;
+        max-width: 300px;
+        padding: 10px;
+      }
+
+      main {
+        margin: 10vw;
+      }
+
       img {
-        width: 400px;
+        width: 100%;
         height: auto;
+        margin-bottom: 20px;
+        border-top-left-radius: 4%;
+        border-top-right-radius: 4%;
+        
+      
       }
       section {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       }
+
       nav {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
       }
-      .valgt {
-        background-color: seagreen;
-        color: white;
+
+      section {
+        gap: 20px;
       }
+
+      .template_article {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(202, 230, 255);
+        border-radius: 15px;
+        cursor: pointer;
+      }
+
+      .template_article:hover {
+        box-shadow: 0px 10px 13px -7px #000000, 1px 13px 17px -1px rgba(0,0,0,0);
+        transition: box-shadow 0.2s ease-in-out;
+      }
+
+      .btn::before {  
+        transform: scaleX(0);
+        transform-origin: bottom right;
+      }
+
+      .btn:hover::before {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+        
+      }
+
+      .btn::before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        inset: 0 0 0 0;
+        background: hsl(200 100% 80%);
+        z-index: -1;
+        transition: transform .3s ease;
+        
+      }
+
+      .btn {
+        margin-top: 1vw;
+        margin-bottom: 3vw;
+        position: relative;
+        font-size: 1.5rem;
+        font-family: 'Montserrat', sans-serif;
+        cursor: pointer;
+      }
+
 
       /*popup*/
       #popup {
         position: fixed;
+        z-index: 10;
         left: 0;
         top: 0;
         width: 100vw;
@@ -38,7 +136,7 @@
         
       }
       #popup article {
-        width: 80vw;
+        max-width: 400px;;
         display: flex;
         margin: 4rem auto;
         border-radius: 25px;
@@ -46,6 +144,7 @@
         background-color: white;
         flex-direction: column;
         align-items: center;
+        z-index: 5;
       }
       #luk {
         position: fixed;
@@ -58,36 +157,39 @@
     </style>
   </head>
   <body>
+    <main>
     <section id="popup">
       <div id="luk">&#x2715</div>
       <article>
         <img src="" alt="" />
-        <h2></h2>
+        <h3></h3>
         <p class="lang_beskrivelse"></p>
         <p class="pris"></p>
       </article>
     </section>
 
-    <h1>ALLE</h1>
+    <h1>Bistro Babushka</h1>
+    <h2>MENU</h2>
     <nav>
-      <button data-kategori="alle">ALLE</button>
-      <button data-kategori="forretter" class="valgt">FORRETTER</button>
-      <button data-kategori="hovedretter">HOVEDRETTER</button>
-      <button data-kategori="desserter">DESSERTER</button>
-      <button data-kategori="drikkevarer">DRIKKEVARER</button>
-      <button data-kategori="sideorders">SIDEORDERS</button>
+      <div class="btn" data-kategori="alle">MENU</div>
+      <div class="btn" data-kategori="forretter" class="valgt">FORRETTER</div>
+      <div class="btn" data-kategori="hovedretter">HOVEDRETTER</div>
+      <div class="btn" data-kategori="desserter">DESSERTER</div>
+      <div class="btn" data-kategori="drikkevarer">DRIKKEVARER</div>
+      <div class="btn" data-kategori="sideorders">SIDEORDERS</div>
     </nav>
 
     <template>
       <article class="template_article">
-        <h3 class="template_navn"></h3>
         <img src="" alt="" class="template_img" />
+        <h4 class="template_navn"></h4>
         <p class="template_beskrivelse"></p>
         <p class="template_pris"></p>
       </article>
     </template>
     <section id="galleri"></section>
-    <a href="mailto:"></a>
+   
+    </main>
     <script>
       const url = "https://babushka-dd8a.restdb.io/rest/menu";
       const options = {
@@ -97,46 +199,45 @@
       };
 
       let filter = "alle";
-      let personer;
-      const header = document.querySelector("h1");
-      const filterKnapper = document.querySelectorAll("nav button");
+      let mad;
+      const header = document.querySelector("h2");
+      const filterKnapper = document.querySelectorAll("nav .btn");
       filterKnapper.forEach((knap) =>
-        knap.addEventListener("click", filtrerPersoner)
+        knap.addEventListener("click", filtrer)
       );
 
-      function filtrerPersoner() {
+      function filtrer() {
         filter = this.dataset.kategori;
 
-        visPersoner();
+        visMad();
 
         header.textContent = this.textContent;
-        document.querySelector(".valgt").classList.remove("valgt");
-        this.classList.add("valgt");
+        
       }
 
       async function hentData() {
         const JSONDATA = await fetch(url, options);
-        personer = await JSONDATA.json();
+        mad = await JSONDATA.json();
 
-        visPersoner();
+        visMad();
       }
 
-      function visPersoner() {
-        console.log(personer);
+      function visMad() {
+        console.log(mad);
         const section = document.querySelector("#galleri");
         const template = document.querySelector("template").content;
         section.textContent = "";
-        personer.forEach((person) => {
-          if (filter == person.kategori || filter == "alle") {
+        mad.forEach((mad2) => {
+          if (filter == mad2.kategori || filter == "alle") {
             const klon = template.cloneNode(true);
             klon.querySelector(".template_navn").textContent =
-              person.navn;
+              mad2.navn;
             klon.querySelector(".template_img").src = "bistro_billeder/" +
-             person.billednavn + "-md.jpg";
-            klon.querySelector(".template_beskrivelse").textContent = person.kortbeskrivelse;
+             mad2.billednavn + "-md.jpg";
+            klon.querySelector(".template_beskrivelse").textContent = mad2.kortbeskrivelse;
             klon
               .querySelector("article")
-              .addEventListener("click", () => visDetaljer(person));
+              .addEventListener("click", () => visDetaljer(mad2));
             section.appendChild(klon);
           }
         });
@@ -144,14 +245,14 @@
 
       hentData();
 
-      function visDetaljer(person) {
+      function visDetaljer(mad2) {
         popup.style.display = "block";
         popup.querySelector("img").src = "bistro_billeder/" +
-             person.billednavn + "-md.jpg";
-        popup.querySelector("h2").textContent =
-          person.navn;
-        popup.querySelector(".lang_beskrivelse").textContent = person.langbeskrivelse;
-        popup.querySelector(".pris").textContent = "Pris:" + " " + person.pris + " " + "kr.";
+             mad2.billednavn + "-md.jpg";
+        popup.querySelector("h3").textContent =
+          mad2.navn;
+        popup.querySelector(".lang_beskrivelse").textContent = mad2.langbeskrivelse;
+        popup.querySelector(".pris").textContent = "Pris:" + " " + mad2.pris + " " + "kr.";
         document.querySelector("#luk").addEventListener("click", () => popup.style.display = "none");
       }
     </script>
