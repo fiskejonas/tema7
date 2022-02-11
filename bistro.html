@@ -55,36 +55,20 @@
         margin-bottom: 20px;
         border-top-left-radius: 4%;
         border-top-right-radius: 4%;
-        
-      
       }
+
       section {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
       }
+
+      /* Filter navigation*/
 
       nav {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-      }
-
-      section {
-        gap: 20px;
-      }
-
-      .template_article {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: rgb(202, 230, 255);
-        border-radius: 15px;
-        cursor: pointer;
-      }
-
-      .template_article:hover {
-        box-shadow: 0px 10px 13px -7px #000000, 1px 13px 17px -1px rgba(0,0,0,0);
-        transition: box-shadow 0.2s ease-in-out;
       }
 
       .btn::before {  
@@ -94,8 +78,7 @@
 
       .btn:hover::before {
         transform: scaleX(1);
-        transform-origin: bottom left;
-        
+        transform-origin: bottom left; 
       }
 
       .btn::before {
@@ -119,8 +102,22 @@
         cursor: pointer;
       }
 
+      .template_article {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(202, 230, 255);
+        border-radius: 15px;
+        cursor: pointer;
+      }
+
+      .template_article:hover {
+        box-shadow: 0px 10px 13px -7px #000000, 1px 13px 17px -1px rgba(0,0,0,0);
+        transition: box-shadow 0.2s ease-in-out;
+      }
 
       /*popup*/
+
       #popup {
         position: fixed;
         z-index: 10;
@@ -133,8 +130,8 @@
         display: flex;
         align-items: center;
         display: none;
-        
       }
+
       #popup article {
         max-width: 400px;;
         display: flex;
@@ -146,6 +143,7 @@
         align-items: center;
         z-index: 5;
       }
+
       #luk {
         position: fixed;
         padding: 1em;
@@ -154,6 +152,7 @@
         color: white;
         cursor: pointer;
       }
+      
     </style>
   </head>
   <body>
@@ -191,13 +190,15 @@
    
     </main>
     <script>
+      //adresse og nøgle til json data
       const url = "https://babushka-dd8a.restdb.io/rest/menu";
       const options = {
         headers: {
           "x-apikey": "600ec2fb1346a1524ff12de4",
         },
       };
-
+      
+      //eventlistener på alle knapper
       let filter = "alle";
       let mad;
       const header = document.querySelector("h2");
@@ -206,6 +207,7 @@
         knap.addEventListener("click", filtrer)
       );
 
+      //lav filter
       function filtrer() {
         filter = this.dataset.kategori;
 
@@ -215,6 +217,7 @@
         
       }
 
+      //hent json data
       async function hentData() {
         const JSONDATA = await fetch(url, options);
         mad = await JSONDATA.json();
@@ -222,6 +225,7 @@
         visMad();
       }
 
+      //vis loopview
       function visMad() {
         console.log(mad);
         const section = document.querySelector("#galleri");
@@ -245,6 +249,7 @@
 
       hentData();
 
+      //vis singleview
       function visDetaljer(mad2) {
         popup.style.display = "block";
         popup.querySelector("img").src = "bistro_billeder/" +
